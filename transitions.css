@@ -1,0 +1,67 @@
+/*
+手牌动画
+*/
+/*
+这是在transaction下的类
+*/
+/*.hand.v-enter-active,
+.hand.v-leave-active {
+  transition: opacity 1s;
+}
+
+.hand.v-enter,
+.hand.v-leave-to {
+  opacity: 0;
+}*/
+/*
+通过transaction指定的fade的名字指定动画可重用的动画
+*/
+/*.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}*/
+
+/*
+通过transaction指定的hand的名字指定动画可重用的动画
+*/
+.hand-enter-active,
+.hand-leave-active {
+  transition: opacity .5s;
+}
+
+.hand-enter,
+.hand-leave-to {
+  opacity: 0;
+}
+
+/*
+ 将3D变换效果应用到元素
+*/
+.hand-enter-active .wrapper,
+.hand-leave-active .wrapper {
+  transition: transform .8s cubic-bezier(.08, .74, .34, 1);
+  transform-origin: bottom center;
+}
+
+.hand-enter .wrapper,
+.hand-leave-to .wrapper {
+  transform: rotateX(90deg);
+}
+
+/*
+给卡牌设置一个负的水平边距，这样卡牌看起来就像是堆在一起的：
+*/
+.hand-enter-active .card,
+.hand-leave-active .card {
+  transition: margin .8s cubic-bezier(.08, .74, .34, 1);
+}
+
+.hand-enter .card,
+.hand-leave-to .card {
+  margin: 0 -100px;
+}
