@@ -1,4 +1,7 @@
 /*
+这点CSS代码需要好好研究-----
+*/
+/*
 手牌动画
 */
 /*
@@ -16,7 +19,7 @@
 /*
 通过transaction指定的fade的名字指定动画可重用的动画
 */
-/*.fade-enter-active,
+.fade-enter-active,
 .fade-leave-active {
   transition: opacity 1s;
 }
@@ -24,7 +27,7 @@
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
-}*/
+}
 
 /*
 通过transaction指定的hand的名字指定动画可重用的动画
@@ -64,4 +67,54 @@
 .hand-enter .card,
 .hand-leave-to .card {
   margin: 0 -100px;
+}
+
+/*
+切牌动画（group transition）
+card-enter-active、card-enter、card-enter-to、card-leave-active、card-leave和card-leave-to
+列表过渡有一个额外的类v-move
+*/
+.card-move {
+  transition: transform .3s;
+}
+
+/*由于始终需要在相同的时间对卡牌的多个CSS属性进行过渡,.card-move规则*/
+.card {
+  /* 用于进入、移动和鼠标悬停的动画 */
+  transition: all .8 s;
+}
+
+.card-enter {
+  opacity: 0;
+  /* 从右边划入 */
+  transform: scale(.8) translateX(100px);
+}
+
+.card-leave-active {
+  /* 离开过渡的时间不同 */
+  transition: all 1s, opacity .5s .5s;
+  /* 保持水平位置不变 */
+  position: absolute !important;
+  /* 将玩家打出的卡牌绘制于其他卡牌之上 */
+  z-index: 10;
+  /* 在过渡期间不允许单击 */
+  pointer-events: none;
+}
+
+.card-leave-to {
+  opacity: 0;
+  /* 卡牌上升的同时放大 */
+  transform: translateX(-106px) translateY(-300px) scale(1.5);
+}
+
+/*浮层动画*/
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: opacity .3s, transform .3s;
+}
+
+.zoom-enter,
+.zoom-leave-to {
+  opacity: 0;
+  transform: scale(.7);
 }

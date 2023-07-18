@@ -36,7 +36,9 @@ Vue.component('card', {
 Vue.component('hand', {
     template: `<div class="hand">
         <div class="wrapper">
-             <card v-for="card of cards" :key=card.id :def="card.def" @play="handlePlay(card)"/>
+        <transition-group name="card" tag="div" class="cards">
+          <card v-for="card of cards" :key=card.uid :def="card.def" @play="handlePlay(card)"/>
+        </transition-group>
         </div>
   </div>`,
     props: ['cards'],
@@ -45,4 +47,64 @@ Vue.component('hand', {
             this.$emit('card-play', card)
         },
     },
+})
+//浮层(overlay)组件
+Vue.component('overlay', {
+    template: `<div class="overlay" @click="handleClick">
+    <div class="content">
+    <!--这里是插槽-->
+    <slot/>
+    </div>
+    </div>`,
+    methods: {
+        handleClick() {
+            this.$emit('close')
+        },
+    },
+})
+//第一个浮层将根据是否跳过回合，向当前玩家显示两条不同的信息。
+Vue.component('overlay-content-player-turn', {
+    template: `<div>
+                <div class="big" v-if="player.skipTurn">{{ player.name }},
+                    <br>你的回合已经被跳过了!</div>
+                <div class="big" v-else>{{ player.name }},<br>你的回合开始了!</div>
+                <div>单击以继续</div>
+            </div>`,
+    props: ['player'],
+})
+//last-play浮层
+Vue.component('overlay-content-last-play', {
+    template: `<div>
+            <div v-if="opponent.skippedTurn">{{ opponent.name }}回合被跳过!</div>
+                <template v-else>
+                    <div>{{ opponent.name }} 刚才使用了:</div>
+                    <card :def="lastPlayedCard" />
+                </template>
+             </div>`,
+    props: ['opponent'],
+    computed: {
+        lastPlayedCard() {
+            return getLastPlayedCard(this.opponent)
+        },
+    },
+})
+//game-over浮层
+//play-result的组件，用来显示玩家是胜利还是失败
+Vue.component('player-result', {
+    template: `<div class="player-result" :class="result">
+        <span class="name">{{ player.name }}</span>
+        <span class="result">{{ result }}</span>
+    </div>`,
+    props: ['player'],
+    computed: {
+        result() {
+            return this.player.dead ? '失败' : '成功'
+        },
+    },
+})
+Vue.component('overlay-content-game-over', {
+    template: `<div>
+        <div class="big">Game Over</div>
+        <player-result v-for="player in players" :player="player" /> </div>`,
+    props: ['players'],
 })

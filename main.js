@@ -4,7 +4,19 @@ new Vue({
 
     template: `<div id="#app">
     <top-bar :turn="turn" :current-player-index="currentPlayerIndex" :players="players"/>
-    <card :def=testCard @play="handlePlay" />
+    <!--<card :def=testCard @play="handlePlay" />-->
+    <transition name="fade">
+        <div class="overlay-background" v-if="activeOverlay" />
+    </transition>
+    <transition name="zoom">
+        <overlay v-if="activeOverlay" :key="activeOverlay">
+            <component 
+            :is="'overlay-content-' + activeOverlay"
+            :player="currentPlayer" :opponent="currentOpponent"
+            :players="players" 
+        />
+    </overlay>
+    </transition>
     <transition name="hand">
        <hand v-if="!activeOverlay" :cards="testHand" @card-play="testPlayCard" />
     </transition>
