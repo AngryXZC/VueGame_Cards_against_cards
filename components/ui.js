@@ -13,7 +13,7 @@ Vue.component('top-bar', {
         //该组件是data中的state定义的我们可以看到这处的data是在state中定义的state对象而不是使用函数返回的对象
         //this.player是从父组件传来的
         //该处还有待加深理解
-        console.log(this.players);
+        console.log(this.players, this.currentPlayerIndex, this.turn)
     },
 })
 //卡片组件
@@ -28,7 +28,9 @@ Vue.component('card', {
     methods: {
         //点击卡片
         play() {
+            console.log("def", this.def)
             this.$emit('play');
+
         },
     },
 });
@@ -36,7 +38,7 @@ Vue.component('card', {
 Vue.component('hand', {
     template: `<div class="hand">
         <div class="wrapper">
-        <transition-group name="card" tag="div" class="cards">
+        <transition-group name="card" tag="div" class="cards" @after-leave="handleLeaveTransitionEnd">
           <card v-for="card of cards" :key=card.uid :def="card.def" @play="handlePlay(card)"/>
         </transition-group>
         </div>
@@ -45,6 +47,9 @@ Vue.component('hand', {
     methods: {
         handlePlay(card) {
             this.$emit('card-play', card)
+        },
+        handleLeaveTransitionEnd() {
+            this.$emit('card-leave-end')
         },
     },
 })

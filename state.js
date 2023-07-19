@@ -40,8 +40,8 @@ var state = {
     },
   ],
   currentPlayerIndex: Math.round(Math.random()),
-  //测试hand属性
-  testHand: [],
+  // //测试hand属性
+  // testHand: [],
   //用户界面
   activeOverlay: null,
   //根据currentPlayerIndex属性返回player对象：
@@ -56,4 +56,14 @@ var state = {
   get currentOpponent() {
     return state.players[state.currentOpponentId]
   },
+  //玩家可以抽牌的牌堆
+  drawPile: pile,
+
+  discardPile: {},
+
+  get currentHand() {
+    return state.currentPlayer.hand
+  },
+  //防止玩家在回合中重复出牌
+  canPlay: false,
 }
