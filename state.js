@@ -13,7 +13,9 @@ var state = {
   // World
   worldRatio: getWorldRatio(),
   // Game
+  //当前回合数,从1开始计数
   turn: 1,
+  //玩家对象数组
   players: [
     {
       //游戏开始时的状态
@@ -39,6 +41,7 @@ var state = {
       dead: false,
     },
   ],
+  //当前玩家在players数组中的索引
   currentPlayerIndex: Math.round(Math.random()),
   // //测试hand属性
   // testHand: [],

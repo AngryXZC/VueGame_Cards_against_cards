@@ -33,7 +33,7 @@ new Vue({
     </transition>
     </div>`,
 
-    data: state,
+    data: state,//将state对象作为data属性，这里this.$data就是state对象
 
     computed: {
         // testCard() {

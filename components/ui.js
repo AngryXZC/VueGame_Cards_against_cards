@@ -4,15 +4,13 @@ Vue.component('top-bar', {
      <div class="player p0">{{players[0].name}}</div>
       <div class="turn-counter">
         <img class="arrow" src="svg/turn.svg" />
-        <div class="turn">Turn {{ turn }}</div>
+        <div class="turn">回合 {{ turn }}</div>
       </div>
      <div class="player p0">{{players[1].name}}</div>
     </div>`,
     props: ['players', 'currentPlayerIndex', 'turn'],
     created() {
-        //该组件是data中的state定义的我们可以看到这处的data是在state中定义的state对象而不是使用函数返回的对象
-        //this.player是从父组件传来的
-        //该处还有待加深理解
+        //输出从父组件传递过来的数据
         console.log(this.players, this.currentPlayerIndex, this.turn)
     },
 })
